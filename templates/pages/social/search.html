@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+<!-- NAVBAR -->
+{% block navbar %}
+{% include 'components/navbar.html' %}
+{% endblock navbar %}
+
+<!-- MAIN -->
+<!-- left sidebar -->
+{% block left_sidebar %}
+{% include 'components/sidebars/left/sidebar.html' %}
+{% endblock left_sidebar %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    {% if query %}
+        <h2 class="text-2xl mb-6">Resultados para: {{ query }}</h2>
+        
+        {% if profile_list %}
+            <div class="mb-8">
+                <h3 class="text-xl mb-4">Perfiles encontrados</h3>
+                {% for profile in profile_list %}
+                <div class="mb-4 p-4 bg-white dark:bg-dark-second rounded-lg shadow">
+                    <div class="flex items-center">
+                        {% if profile.picture %}
+                            <img src="{{ profile.picture.url }}" alt="{{ profile.user.username }}" class="w-12 h-12 rounded-full mr-4 object-cover">
+                        {% else %}
+                            <!-- Placeholder para usuarios sin imagen -->
+                            <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                                <span class="text-gray-500 text-xl">{{ profile.user.username|first|upper }}</span>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <a href="{% url 'accounts:profile' profile.user.username %}" class="font-semibold hover:underline dark:text-dark-txt">
+                                {{ profile.user.username }}
+                            </a>
+                            {% if profile.bio %}
+                                <p class="text-gray-600 dark:text-dark-txt text-sm mt-1">{{ profile.bio }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if post_list %}
+            <div>
+                <h3 class="text-xl mb-4">Publicaciones encontradas</h3>
+                {% for post in post_list %}
+                <div class="mb-4 p-4 bg-white dark:bg-dark-second rounded-lg shadow">
+                    <div class="flex items-start">
+                        {% if post.author.profile.picture %}
+                            <img src="{{ post.author.profile.picture.url }}" alt="{{ post.author.username }}" 
+                                 class="w-10 h-10 rounded-full mr-3 object-cover">
+                        {% else %}
+                            <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                                <span class="text-gray-500 text-lg">{{ post.author.username|first|upper }}</span>
+                            </div>
+                        {% endif %}
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <a href="{% url 'accounts:profile' post.author.username %}" class="font-semibold hover:underline dark:text-dark-txt">
+                                    {{ post.author.username }}
+                                </a>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ post.created_on|date:"d M Y" }}</span>
+                            </div>
+                            <p class="text-gray-800 dark:text-dark-txt">{{ post.body }}</p>
+                            <a href="{% url 'social:post-detail' post.pk %}" class="text-blue-600 hover:underline text-sm mt-2 inline-block dark:text-blue-400">
+                                Ver publicación
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if not profile_list and not post_list %}
+            <p class="text-center text-gray-600 dark:text-dark-txt">No se encontraron resultados para tu búsqueda.</p>
+        {% endif %}
+    {% else %}
+        <p class="text-center text-gray-600 dark:text-dark-txt">Ingresa un término para buscar.</p>
+    {% endif %}
+</div>
+{% endblock %}

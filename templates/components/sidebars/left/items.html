@@ -1,0 +1,72 @@
+{% load static %}
+
+<div class="fixed left-0 top-16 w-64 h-screen overflow-y-auto bg-white dark:bg-dark-second shadow-lg z-30 sidebar-nav">
+
+    <ul class="p-4">
+        {# User Profile/Login Section #}
+        <li>
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:profile' username=user.username %}" 
+                class="flex items-center space-x-2 p-2 rounded-lg transition-all
+                        hover:bg-gray-200 
+                        dark:text-dark-txt dark:hover:bg-dark-third">
+                    <div class="w-10 h-10 rounded-full overflow-hidden">
+                        {% if user.profile and user.profile.picture %}
+                            <img src="{{ user.profile.picture.url }}" 
+                                alt="{{ user.username }}'s profile picture"
+                                class="w-full h-full object-cover">
+                        {% else %}
+                            <img src="{% static 'images/default-avatar.png' %}" 
+                                alt="Default profile picture"
+                                class="w-full h-full object-cover">
+                        {% endif %}
+                    </div>
+                    <span class="font-semibold">{{ user.username }}</span>
+                </a>
+            {% else %}
+                <a href="{% url 'account_login' %}" 
+                class="flex items-center space-x-2 p-2 rounded-lg transition-all
+                        hover:bg-gray-200 
+                        dark:text-dark-txt dark:hover:bg-dark-third">
+                    <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-dark-third grid place-items-center">
+                        <i class='bx bx-user text-xl'></i>
+                    </div>
+                    <span class="font-semibold">Iniciar Sesión</span>
+                </a>
+            {% endif %}
+        </li>
+
+        {# Followers Section - Only visible when authenticated #}
+        {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'accounts:followers-list' pk=user.pk %}" 
+                class="flex items-center space-x-2 p-2 rounded-lg transition-all
+                        hover:bg-gray-200 
+                        dark:text-dark-txt dark:hover:bg-dark-third dark:focus:bg-dark-second">
+                    <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-dark-third grid place-items-center">
+                        <i class='bx bx-group text-xl text-gray-500'></i>
+                    </div>
+                    <span class="font-semibold">Seguidores</span>
+                </a>
+                {% if user.is_authenticated %}
+
+                <a href="{% url 'account_logout' %}" 
+                class="flex items-center space-x-2 p-2 rounded-lg transition-all
+                        hover:bg-gray-200 
+                        dark:text-dark-txt dark:hover:bg-dark-third dark:focus:bg-dark-second">
+                    <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-dark-third grid place-items-center">
+                        <i class='bx bx-log-out-circle text-xl text-gray-500'></i>
+                    </div>
+                    <span class="font-semibold">Cerrar Sesión</span>
+                </a>
+                {% endif %}
+            </li>
+        {% endif %}
+
+        <li class="border-b border-gray-200 dark:border-dark-third mt-6"></li>
+    </ul>
+</div>
+
+<!-- Agregar un espaciador para empujar el contenido principal -->
+<div class="w-64 flex-shrink-0"></div>
+

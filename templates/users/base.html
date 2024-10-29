@@ -1,0 +1,58 @@
+{% load static %}
+{% load tailwind_tags %}
+{% load tailwind_filters %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon2.png' %}">
+
+    <!-- Tailwind -->
+    {% tailwind_css %}
+
+    <!-- AlpineJS -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+
+    <!-- Extras CSS/JS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+    {% block extra_head %}{% endblock extra_head %}
+    <title>{% block title %}{% endblock title %}</title>
+    <script src="https://pagecdn.io/lib/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body class="bg-gray-100 dark:bg-dark-main flex justify-center ">
+    
+    <!-- NAVBAR -->
+    {% block navbar %}{% endblock navbar %}
+
+        <!--CONTENT-->
+    <div class="flex w-full justify-center min-h-screen bg-gray-100 dark:bg-dark-main pt-14"> <!-- Añadido pt-14 para el espacio del navbar -->
+        <div class="flex w-full max-w-6xl mx-4 lg:mx-auto gap-4"> <!-- Contenedor principal con máximo ancho -->
+            
+            <!-- LEFT SIDEBAR -->
+            <div class="hidden lg:block w-1/4 pt-4">
+                {% block left_sidebar %}{% endblock left_sidebar %}
+            </div>
+
+            <!-- MAIN CONTENT (POSTS) -->
+            <div class="flex-grow max-w-2xl w-full mx-auto pt-4"> <!-- Contenedor de posts -->
+                {% block messages %}{% include 'messages.html' %}{% endblock messages %}
+                {% block content %}{% endblock content %}
+            </div>
+            <!--RIGHT SIDEBAR-->
+            <div class="hidden lg:block w-1/4 pt-4">
+                {% block right_sidebar %}{% endblock right_sidebar %}
+            </div>
+
+        </div>
+    </div>
+</body>
+    <!-- Scripts -->
+    {% block javascript %}{% endblock javascript %}
+
+</html>

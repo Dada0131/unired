@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Login Statistics</h1>
+
+<h2>General Statistics</h2>
+<p>Total Users: {{ total_users }}</p>
+<p>Total Logins: {{ total_logins }}</p>
+
+<h2>Most Active Users</h2>
+<ul>
+    {% for user in most_active_users %}
+    <li>{{ user.username }} ({{ user.login_count }} logins)</li>
+    {% endfor %}
+</ul>
+
+<h2>Logins in the Last 24 Hours</h2>
+<p>{{ logins_24h }}</p>
+
+<h2>Daily Logins in the Last Week</h2>
+<ul>
+    {% for daily_login in daily_logins %}
+    <li>{{ daily_login.date }}: {{ daily_login.count }} logins</li>
+    {% endfor %}
+</ul>
+{% endblock %}
