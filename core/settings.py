@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import environ
+import dj_database_url
 
 env = environ.Env()
 environ.Env.read_env()
@@ -116,12 +117,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+# DATABASES = {
+#     "default": env.db("DATABASE_URL", default="postgres:///social"),
+# }
+# DATABASES["default"]["ATOMIC_REQUESTS"] = True
+
+DATABASES  = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
+
 
 PASSWORD_HASHERS = [
     # https://docs.djangoproject.com/en/dev/topics/auth/passwords/#using-argon2-with-django
