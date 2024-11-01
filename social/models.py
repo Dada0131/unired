@@ -15,7 +15,7 @@ class SocialPost(models.Model):
     shared_body = models.TextField(blank=True, null=True)
     shared_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='+')
     shared_on = models.DateTimeField(blank=True, null=True)    
-    body=models.TextField()
+    body=models.TextField(null=True)
     image = models.ManyToManyField('Image', blank=True)
     created_on = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='social_post_author')
