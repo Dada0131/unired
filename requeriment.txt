@@ -89,3 +89,4 @@ vine==5.1.0
 wcwidth==0.2.13
 whitenoise==5.2.0
 zope.interface==7.0.3
+python -m pip install --upgrade pip
