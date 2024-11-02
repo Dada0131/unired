@@ -291,5 +291,3 @@ class UserSearch(View):
         return render(request, 'pages/social/search.html', context) 
     
     
-
-    
